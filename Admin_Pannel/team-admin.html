@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #23272a;
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #7289da;
+        }
+
+        .member {
+            margin-bottom: 30px;
+        }
+
+        .member h2 {
+            background-color: #99aab5;
+            color: #23272a;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .team {
+            background-color: #2c2f33;
+            padding: 15px;
+            border: 1px solid #7289da;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #7289da;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .members {
+            display: grid;
+            grid-template-columns: 30% 30% 30%;
+            column-gap: 2cap;
+        }
+
+        .developers-list {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #7289da;
+            padding: 5px;
+        }
+
+        .innovation-list {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #7289da;
+            padding: 5px;
+
+        }
+
+        .promotion-list {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #7289da;
+            padding: 5px;
+
+        }
+
+        .span {
+            font-weight: 100;
+        }
+    </style>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+</head>
+
+<body>
+
+    <h2>Team Members</h2>
+    <div class="members">
+        <div class="developers-list"></div> <!-- Container for displaying developers -->
+        <div class="innovation-list"></div>
+        <div class="promotion-list"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import {
+            getDatabase,
+            ref,
+            get
+        } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Firebase configuration (replace with your actual config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVIym8X-GDRx6_1256dtVZdo3hIm7TRgI",
+            authDomain: "flipper-hack.firebaseapp.com",
+            databaseURL: "https://flipper-hack-default-rtdb.firebaseio.com",
+            projectId: "flipper-hack",
+            storageBucket: "flipper-hack.appspot.com",
+            messagingSenderId: "9118741906",
+            appId: "1:9118741906:web:d8860d3094a46bafd37d4b",
+            measurementId: "G-EYLLFHW5XS",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to fetch web developers
+        function fetchWebDevelopers() {
+            const developersRef = ref(database, 'web developers'); // Reference to the web developers node
+            get(developersRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const developers = snapshot.val();
+                        const developersList = document.querySelector('.developers-list'); // Container for developers list
+
+                        // Clear existing developers
+                        developersList.innerHTML = '';
+
+                        // Loop through each developer and display their name and selected team
+                        for (let username in developers) {
+                            const developer = developers[username];
+                            const developerElement = document.createElement('div');
+                            developerElement.classList.add('member');
+
+                            developerElement.innerHTML += `
+                        <div>
+                        <h3>${developer.firstName}: <span class="span"> ${developer.selectedTeam}</span></h3>
+                        </div>
+                        `;
+
+                            developersList.appendChild(developerElement); // Append developer element to the list
+                        }
+                    } else {
+                        console.error("No developer data available");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching developer data: ", error);
+                });
+        }
+        function fetchInovation() {
+            const InnovationRef = ref(database, 'Innovation and Research'); // Reference to the web Innovation node
+            get(InnovationRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const Innovation = snapshot.val();
+                        const InnovationList = document.querySelector('.innovation-list'); // Container for Innovation list
+
+                        // Clear existing Innovation
+                        InnovationList.innerHTML = '';
+
+                        // Loop through each developer and display their name and selected team
+                        for (let username in Innovation) {
+                            const developer = Innovation[username];
+                            const developerElement = document.createElement('div');
+                            developerElement.classList.add('member');
+
+                            developerElement.innerHTML = `
+                        <div>
+                        <h3>${developer.firstName}: <span class="span"> ${developer.selectedTeam}</span></h3>
+                        </div>
+                        `;
+
+                            InnovationList.appendChild(developerElement); // Append developer element to the list
+                        }
+                    } else {
+                        console.error("No developer data available");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching developer data: ", error);
+                });
+        }
+        function fetchPromotion() {
+            const promotionRef = ref(database, 'Promotion and Marketing'); // Reference to the web promotion node
+            get(promotionRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const promotion = snapshot.val();
+                        const promotionList = document.querySelector('.promotion-list'); // Container for promotion list
+
+                        // Clear existing promotion
+                        promotionList.innerHTML = '';
+
+                        // Loop through each developer and display their name and selected team
+                        for (let username in promotion) {
+                            const developer = promotion[username];
+                            const developerElement = document.createElement('div');
+                            developerElement.classList.add('member');
+
+                            developerElement.innerHTML = `
+                        <div class="$"">
+                        <h3>${developer.firstName}: <span class="span"> ${developer.selectedTeam}</span></h3>
+                        </div>
+                        `;
+
+                            promotionList.appendChild(developerElement); // Append developer element to the list
+                        }
+                    } else {
+                        console.error("No developer data available");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching developer data: ", error);
+                });
+        }
+
+        // Fetch web developers data when the page loads
+        window.onload = () => {
+            fetchWebDevelopers();
+            fetchInovation();
+            fetchPromotion();
+        };
+
+
+    </script>
+
+</body>
+
+</html>

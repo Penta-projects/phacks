@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General Admin Panel</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #f5f5f5;
+      }
+
+      .container {
+        text-align: center;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .login-form {
+        display: none;
+        margin-top: 20px;
+      }
+
+      input {
+        padding: 10px;
+        margin: 5px 0;
+        width: 80%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      #error-message {
+        color: red;
+        margin-top: 10px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>General Admin Panel</h1>
+      <button id="admin-panel-btn">Admin Panel</button>
+      <button id="detail-admin-panel-btn">Detail Admin Panel</button>
+
+      <div id="login-form" class="login-form">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <input
+          type="text"
+          id="security-admin-code"
+          placeholder="Security Admin Code"
+          required
+        />
+        <button id="login-btn">Login</button>
+        <div id="error-message">
+          Invalid username, password, or security admin code.
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+        update,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+      // Firebase configuration (replace with your actual config)
+      const firebaseConfig = {
+        apiKey: "AIzaSyCVIym8X-GDRx6_1256dtVZdo3hIm7TRgI",
+        authDomain: "flipper-hack.firebaseapp.com",
+        databaseURL: "https://flipper-hack-default-rtdb.firebaseio.com",
+        projectId: "flipper-hack",
+        storageBucket: "flipper-hack.appspot.com",
+        messagingSenderId: "9118741906",
+        appId: "1:9118741906:web:d8860d3094a46bafd37d4b",
+        measurementId: "G-EYLLFHW5XS",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Hard-coded security admin code
+      const SECURITY_ADMIN_CODE = "ADMIN123";
+
+      document
+        .getElementById("admin-panel-btn")
+        .addEventListener("click", function () {
+          document.getElementById("login-form").style.display = "block";
+          sessionStorage.setItem("selectedPanel", "Admin"); // Store selection
+        });
+
+      document
+        .getElementById("detail-admin-panel-btn")
+        .addEventListener("click", function () {
+          document.getElementById("login-form").style.display = "block";
+          sessionStorage.setItem("selectedPanel", "detailAdminPanel"); // Store selection
+        });
+
+      document
+        .getElementById("login-btn")
+        .addEventListener("click", function () {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const securityAdminCode = document
+            .getElementById("security-admin-code")
+            .value.trim();
+
+          if (securityAdminCode !== SECURITY_ADMIN_CODE) {
+            displayError("Invalid security admin code.");
+            return;
+          }
+
+          // Get user data from Firebase to validate username and password
+          const userRef = ref(database, `users/${username}`);
+          get(userRef)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const userData = snapshot.val();
+                if (userData.password === password) {
+                  const selectedPanel = sessionStorage.getItem("selectedPanel");
+                  if (selectedPanel === "Admin") {
+                    window.location.href = "Admin.html"; // Replace with actual admin panel URL
+                  } else if (selectedPanel === "detailAdminPanel") {
+                    window.location.href = "detailAdminPannel.html"; // Replace with actual detail admin panel URL
+                  }
+                } else {
+                  displayError("Invalid username or password.");
+                }
+              } else {
+                displayError("User not found.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching user data: ", error);
+              displayError("An error occurred while fetching user data.");
+            });
+        });
+
+      function displayError(message) {
+        const errorMessageDiv = document.getElementById("error-message");
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = "block";
+      }
+    </script>
+  </body>
+</html>

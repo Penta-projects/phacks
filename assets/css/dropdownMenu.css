@@ -1,0 +1,63 @@
+/*
+**user Header
+*/
+
+.user-icon {
+    position: relative;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.user-icon ion-icon {
+    font-size: 24px;
+    color: var(--eerie-black-3);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000000;
+    min-width: 150px;
+}
+
+.dropdown-item {
+    padding: 10px 15px;
+    display: block;
+    color: var(--eerie-black-3);
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    background-color: var(--dark-mint);
+    color: #fff;
+}
+
+.user-icon {
+    position: absolute;
+    right: 10%;
+    top: 40%;
+}
+
+.header-user-icon {
+    font-size: 25px;
+}
+
+@media (max-width: 600px) {
+
+
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+        min-width: 100%;
+    }
+
+    .dropdown-item {
+        padding: 15px;
+    }
+}

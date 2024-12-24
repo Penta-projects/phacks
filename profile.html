@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+    - primary meta tags
+    -->
+    <title>FlipHacks - Creative & Inovative Minds</title>
+    <meta name="title" content="FlipHacks - Creative & Inovative Minds" />
+    <meta name="description" content="This is a Hackathon website made for Flipper school by Lewi zelalem." />
+
+    <!--
+    - favicon
+    -->
+    <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
+
+    <!--
+    - google fonts link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!--
+    - custom css link
+    -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/profile.css">
+    <link rel="stylesheet" href="assets/css/dropdownMenu.css">
+
+    <!--
+    - preload
+    -->
+    <link rel="preload" as="image" href="assets/images/hero-slider-1.jpg" />
+    <link rel="preload" as="image" href="assets/images/hero-slider-2.jpg" />
+    <link rel="preload" as="image" href="assets/images/hero-slider-3.jpg" />
+</head>
+
+<body>
+    <!--
+    PRELOADER
+    --><!--
+    <div class="preload" data-preload>
+      <div class="circle"></div>
+      <p class="text">FlipHacks</p>
+    </div>-->
+
+    <!--
+    - Top bar
+    -->
+
+    <div class="topbar">
+        <div class="container">
+            <adress class="topbar-item">
+                <div class="icon">
+                    <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+                </div>
+                <span class="span">
+                    Hackathon Club, Flliper International School , A.A
+                </span>
+            </adress>
+
+            <div class="separator"></div>
+
+            <div class="topbar-item item-2">
+                <div class="icon">
+                    <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+                    <span class="span"> Every Friday : 2.30 pm to 3.30 pm </span>
+                </div>
+
+                <div class="separator"></div>
+
+                <a href="tel:+251937116914 " class="topbar-item">
+                    <div class="icon">
+                        <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+                    </div>
+                    <span class="span">+251937116914</span>
+                </a>
+
+                <div class="separator"></div>
+
+                <a href="mailto:ttfalewi@gmail.com " class="topbar-item">
+                    <div class="icon">
+                        <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+                    </div>
+                    <span class="span">ttfalewi@gmail.com</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    - HEADER
+    -->
+
+    <header class="header" data-header>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="assets/images/logo21.svg" alt="Fliphacks - Home" width="160" height="50" />
+            </a>
+            <nav class="navbar" data-navbar>
+                <button class="close-btn" aria-label="close menu" data-nav-toggler>
+                    <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+                </button>
+
+                <a href="#" class="logo">
+                    <img src="assets/images/logo-new.svg" alt="Fliphacks - Home" width="160" height="50" />
+                </a>
+
+                <ul class="navbar-list">
+                    <li class="navbar-items">
+                        <a href="#home" class="navbar-link hover-underline active">
+                            <div class="separator"></div>
+
+                            <span class="span">Home</span>
+                        </a>
+                    </li>
+
+                    <li class="navbar-items">
+                        <a href="#tracks" class="navbar-link hover-underline">
+                            <div class="separator"></div>
+
+                            <span class="span">Tracks</span>
+                        </a>
+                    </li>
+
+                    <li class="navbar-items">
+                        <a href="#about" class="navbar-link hover-underline">
+                            <div class="separator"></div>
+
+                            <span class="span"> About Us </span>
+                        </a>
+                    </li>
+
+                    <li class="navbar-items">
+                        <a href="#speackers" class="navbar-link hover-underline">
+                            <div class="separator"></div>
+
+                            <span class="span"> Speackers </span>
+                        </a>
+                    </li>
+
+                    <li class="navbar-items">
+                        <a href="#contact" class="navbar-link hover-underline">
+                            <div class="separator"></div>
+
+                            <span class="span"> Contact Us </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="text-center">
+                    <p class="headline-1 navbar-title">Visit Us</p>
+
+                    <adress class="body-4">
+                        Flliper International School , <br />
+                        Addis Ababa
+                    </adress>
+
+                    <p class="body-4 navbar-text">Friday-Club : 2.30 - 3.30 pm</p>
+
+                    <a href="mailto:ttfalewi@gmail.com" class="body-4 sidebar-link">ttfalewi@gmail.com</a>
+                    <div class="separator"></div>
+
+                    <p class="contact-lable">Join Our Club</p>
+
+                    <a href="tel:+251937116914" class="body-1 contact-number hover-underline">
+                        +251937116914
+                    </a>
+                </div>
+            </nav>
+
+            <a href="#" class="btn btn-secondary">
+                <span class="text text-1"> Secure Your Spot ! </span>
+
+                <span class="text text-2" aria-hidden="true">
+                    Secure Your Spot !
+                </span>
+            </a>
+
+            <div class="user-icon" id="userIcon" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-user header-user-icon"></i>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="profile.html" class="dropdown-item">Profile</a>
+                    <a id="inboxLink" class="dropdown-item">inbox</a>
+                    <a id="groupChat" class="dropdown-item inboxLink">Group Chat</a> <a
+                        href="Login and signup/index.html" class="dropdown-item">Logout</a>
+                </div>
+            </div>
+
+            <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+                <span class="line line-1"></span>
+                <span class="line line-2"></span>
+                <span class="line line-3"></span>
+            </button>
+
+            <div class="overlay" data-nav-toggler data-overlay></div>
+        </div>
+    </header>
+
+    <!--
+    -main content
+    -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="chat-icon" id="chatIcon" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-comments"></i>
+                <div class="dropdown-menu" id="chatDropdown">
+                    <a href="#" class="dropdown-item">Chat with Admin</a>
+                    <a href="#" class="dropdown-item">View Chats</a>
+                </div>
+            </div>
+            <h1>User Profile</h1>
+        </div>
+        <div class="profile-content">
+            <div class="profile-details">
+                <h2 id="firstnameNlastname"></h2>
+                <p>Username: <strong id="userName"></strong></p>
+                <p>Security Code: <strong id="security-code"></strong></p>
+                <p>Bio: <strong>Web developer with a passion for creating beautiful and functional websites.</strong>
+                </p>
+                <!--<button id="editProfileBtn">Edit Profile</button>-->
+            </div>
+        </div>
+        <!-- Members Section --><!--
+        <div class="members-section">
+            <h2>Members</h2>
+            <ul class="members-list">
+                <li class="member-item"><span class="member-role"></span></li>
+            </ul>
+        </div>
+
+        <div class="profile-footer">
+            <p>&copy; 2024 Flip Hacks. All rights reserved.</p>
+        </div>-->
+    </div>
+
+
+    <script type="module" src="assets/js/profile.js" defer></script>
+    <script type="module" src="assets/js/dropdownMenu.js"></script>
+</body>
+
+</html>

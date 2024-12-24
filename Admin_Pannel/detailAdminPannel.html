@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <style>
+      /* General Reset */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        animation: backgroundAnimation 8s infinite alternate ease-in-out;
+      }
+
+      @keyframes backgroundAnimation {
+        0% {
+          background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+        50% {
+          background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+        }
+        100% {
+          background: linear-gradient(135deg, #ffecd2, #fcb69f);
+        }
+      }
+
+      /* Admin Panel Container */
+      .admin-panel {
+        padding: 40px;
+        max-width: 90%;
+        margin: 20px auto;
+      }
+
+      /* Admin Information */
+      .admin-info {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .admin-info h2,
+      .admin-info h3 {
+        margin: 0 0 10px 0;
+      }
+
+      /* Search Container */
+      .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        flex: 1;
+        font-size: 16px;
+      }
+
+      .search-button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        background: #ff9a9e;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+      }
+
+      .search-button:hover {
+        background: #ff6b6b;
+      }
+
+      /* Registration Container */
+      .registration-container {
+        width: 90%;
+        background: #fff;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .registration-container h4 {
+        margin: 0 0 10px 0;
+      }
+
+      .dropdown {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      /* Button Styles */
+      button {
+        padding: 10px 20px;
+        background: #ff9a9e;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+      }
+
+      button:hover {
+        background: #ff6b6b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-panel">
+      <div class="admin-info">
+        <h2>Admin Dashboard</h2>
+        <h3>Total Registrations: <span id="total-registrations">0</span></h3>
+        <h3>Total Accounts: <span id="total-accounts">0</span></h3>
+      </div>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Enter first name"
+        />
+        <button id="search-button" class="search-button">Search</button>
+      </div>
+
+      <div id="registrations"></div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+        update,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+      // Firebase configuration (replace with your actual config)
+      const firebaseConfig = {
+        apiKey: "AIzaSyCVIym8X-GDRx6_1256dtVZdo3hIm7TRgI",
+        authDomain: "flipper-hack.firebaseapp.com",
+        databaseURL: "https://flipper-hack-default-rtdb.firebaseio.com",
+        projectId: "flipper-hack",
+        storageBucket: "flipper-hack.appspot.com",
+        messagingSenderId: "9118741906",
+        appId: "1:9118741906:web:d8860d3094a46bafd37d4b",
+        measurementId: "G-EYLLFHW5XS",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Fetch total registrations and total accounts
+      const registrationsRef = ref(database, "Registration");
+      get(registrationsRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const registrations = snapshot.val();
+            const totalRegistrations = Object.keys(registrations).length;
+
+            document.getElementById("total-registrations").innerText =
+              totalRegistrations;
+
+            // Display each registration in its own container
+            const registrationsContainer =
+              document.getElementById("registrations");
+            for (const key in registrations) {
+              if (registrations.hasOwnProperty(key)) {
+                const registration = registrations[key];
+                const registrationDiv = document.createElement("div");
+                registrationDiv.className = "registration-container";
+                registrationDiv.setAttribute(
+                  "data-first-name",
+                  registration.FullName.split(" ")[0]
+                ); // Set data attribute for first name
+                registrationDiv.innerHTML = `
+                            <h4>Full Name: ${registration.FullName}</h4>
+                            <p>Field: ${registration.field}</p>
+                            <p>School: ${registration.school}</p>
+                            <p>Grade: ${registration.grade}</p>
+                            <p>Team: ${registration.Team}</p>
+                            <p>Description: ${registration.description}</p>
+                            <select class="dropdown" data-username="${String(
+                              registration.FullName.split(" ")[0]
+                            )}">
+                                <option value="">Select Status</option>
+                                <option value="Pass">Pass</option>
+                                <option value="Fail">Fail</option>
+                            </select>
+                        `;
+                registrationsContainer.appendChild(registrationDiv);
+              }
+            }
+
+            // Add event listeners to each dropdown
+            const dropdowns = document.querySelectorAll(".dropdown");
+            dropdowns.forEach((dropdown) => {
+              dropdown.addEventListener("change", (event) => {
+                const username = String(event.target.dataset.username); // Convert to string
+                const status = event.target.value;
+
+                if (status) {
+                  // Update the status in Firebase under the users node
+                  update(ref(database, `users/${username}`), {
+                    passFail: status,
+                  })
+                    .then(() => {
+                      console.log(
+                        `Status updated for user ${username} to ${status}`
+                      );
+                    })
+                    .catch((error) => {
+                      console.error("Error updating status: ", error);
+                    });
+                }
+              });
+            });
+          } else {
+            console.log("No registration data available");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching registration data: ", error);
+        });
+
+      // Fetch total accounts
+      const usersRef = ref(database, "users");
+      get(usersRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const users = snapshot.val();
+            const totalAccounts = Object.keys(users).length;
+
+            document.getElementById("total-accounts").innerText = totalAccounts;
+          } else {
+            console.log("No user data available");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user data: ", error);
+        });
+
+      // Search functionality by first name
+      document.getElementById("search-button").addEventListener("click", () => {
+        const searchInput = document
+          .getElementById("search-input")
+          .value.trim()
+          .toLowerCase(); // Convert to lowercase
+        const registrationDivs = document.querySelectorAll(
+          ".registration-container"
+        );
+        let found = false;
+
+        registrationDivs.forEach((div) => {
+          const firstName = div.getAttribute("data-first-name").toLowerCase(); // Get first name and convert to lowercase
+          if (firstName === searchInput) {
+            div.style.display = "block";
+            found = true;
+          } else {
+            div.style.display = "none";
+          }
+        });
+
+        if (!found) {
+          alert("No users found with the provided first name.");
+        }
+      });
+    </script>
+  </body>
+</html>
